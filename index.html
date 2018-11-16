@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="//static.cottagelabs.com/bootstrap-3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/ooz.css">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Comfortaa|Days+One|Jura:600|Michroma|Orbitron|Poppins|Wallpoet" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="container"><div class="content">
+        <div class="ooz">OOZ</div>
+        <div class="oneoverzero">one over zero</div>
+    </div></div>
+</header>
+
+<div id="pixels"></div>
+
+<nav>
+    <ul>
+        <li><a class="navigation" href="#about">About</a></li>
+        <li><a class="navigation" href="#richard">Richard</a></li>
+        <li><a class="navigation" href="#software">Software</a></li>
+        <li><a class="navigation" href="#projects">Projects</a></li>
+    </ul>
+</nav>
+
+<section id="about">
+    About
+</section>
+
+<section id="richard">
+    Richard
+</section>
+
+<section id="software">
+    Software
+</section>
+
+<section id="projects">
+    Projects
+</section>
+
+<!--
+<div id="output">
+    <textarea name="palette"></textarea>
+    <textarea name="state"></textarea>
+</div>
+-->
+
+<script type="text/javascript" src="assets/js/jquery-1.12.4/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="assets/js/pixels.js"></script>
+<script type="text/javascript" src="assets/js/ooz.js"></script>
+
+<script>
+jQuery(document).ready(function($) {
+    var width = 200;
+    var height = 30;
+    pixels.init({
+        selector: "#pixels",
+        width: width,
+        height: height,
+        background: "#ffffff",
+        rowSpacing: 3,
+        components : ooz.components.about({width: width, height: height})
+    });
+
+    $("section").hide();
+    $("#about").show();
+
+    $(".navigation").on("click", function(event) {
+        event.preventDefault();
+        $("section").hide();
+        var href = $(this).attr("href");
+        $(href).show();
+
+        var id = href.substr(1);
+        var target = false;
+        if (ooz.components.hasOwnProperty(id)) {
+            var info = pixels.compose({width: width, height: height, background: "#ffffff", components: ooz.components[id]({width: width, height: height})});
+            target = info.state;
+        } else {
+            target = pixels.random({
+                width: width,
+                height: height,
+                range: 4
+            });
+        }
+        pixels.transition({
+            target: target,
+            transitions: 10
+        })
+    });
+
+    /*
+    var newPalette = [];
+    var newState = [];
+    var trs = $("table tr");
+    for (var y = 0; y < trs.length; y++) {
+        var row = [];
+        var tr = trs[y];
+        var tds = $(tr).find("td");
+        for (var x = 0; x < tds.length; x++) {
+            var td = tds[x];
+            var c = $(td).attr("BGCOLOR");
+            if ($.inArray(c, newPalette) === -1) {
+                newPalette.push(c);
+            }
+            var idx = $.inArray(c, newPalette);
+            row.push(idx)
+        }
+        newState.push(row);
+    }
+
+    $("textarea[name=palette]").val(JSON.stringify(newPalette));
+    $("textarea[name=state]").val(JSON.stringify(newState));
+    */
+
+});
+</script>
+
+</body>
+</html>
